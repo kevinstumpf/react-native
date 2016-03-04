@@ -11,6 +11,7 @@ package com.facebook.react.modules.websocket;
 
 import java.io.IOException;
 import javax.annotation.Nullable;
+import java.lang.IllegalStateException;
 
 import com.facebook.common.logging.FLog;
 import com.facebook.react.bridge.Arguments;
@@ -177,6 +178,8 @@ public class WebSocketModule extends ReactContextBaseJavaModule {
         WebSocket.PayloadType.TEXT,
         new Buffer().writeUtf8(message));
     } catch (IOException e) {
+      notifyWebSocketFailed(id, e.getMessage());
+    } catch (IllegalStateException e) {
       notifyWebSocketFailed(id, e.getMessage());
     }
   }
